@@ -12,10 +12,10 @@
  * @category   FME
  * @package    Productattachments
  * @author     Kamran Rafiq Malik <kamran.malik@unitedsol.net>
- * @copyright  Copyright 2010 © free-magentoextensions.com All right reserved
+ * @copyright  Copyright 2010 ï¿½ free-magentoextensions.com All right reserved
  */
 
-class FME_Productattachments_Adminhtml_ProductattachmentsController extends Mage_Adminhtml_Controller_action
+class FME_Productattachments_Adminhtml_ProductattachmentsController extends Mage_Adminhtml_Controller_Action
 {
 
 	protected function _initAction() {
