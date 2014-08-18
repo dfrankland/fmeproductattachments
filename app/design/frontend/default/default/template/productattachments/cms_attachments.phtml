@@ -1,0 +1,61 @@
+<?php
+/**
+ * Productattachments extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * @category   FME
+ * @package    Productattachments
+ * @author     Kamran Rafiq Malik <kamran.malik@unitedsol.net>
+ * @copyright  Copyright 2010 © free-magentoextensions.com All right reserved
+ */
+?>
+<?php 
+//Get Javascript folder base path
+$jspath =  Mage::getBaseUrl('js');
+
+?> 
+<?php 
+	$collection = $this->getCmsPageRelatedAttachments(); 
+?>
+<?php if ( count($collection) != 0 ) : ?>
+<div class="box-collateral" style="margin-top:25px;">
+    <h2><?php echo $this->__(Mage::helper('productattachments')->getCMSPageAttachmentHeading()) ?></h2> 
+    <ul>	
+		<?php foreach ($collection as $item): ?>
+    		 <li>
+			 	<?php
+					//check download limit
+					if($item['limit_downloads']!="" && $item['limit_downloads']!=0){
+						if($item['downloads']<=$item['limit_downloads']){
+							echo $item['file_icon'] . '  ' .  '<a href="javascript:;" onclick="alert(\'You can not download because this attachment excceds the number of download\');"><b>'. $item['title']. '</b></a>  Size: ('.$item['file_size'].')';
+						}else{
+							echo $item['file_icon'] . '  ' .  '<a href="'.Mage::getUrl('productattachments').'index/download?id='.$item['productattachments_id'].'"><b>'. $item['title']. '</b></a>  Size: ('.$item['file_size'].')';
+						}
+					}else{
+						echo $item['file_icon'] . '  ' .  '<a href="'.Mage::getUrl('productattachments').'index/download?id='.$item['productattachments_id'].'"><b>'. $item['title']. '</b></a>  Size: ('.$item['file_size'].')';
+					}
+					if(Mage::getStoreConfig('productattachments/general/show_counter')) {
+				?>
+                	Downloads: (<?php echo $item['downloads']; ?>)
+                <?php 
+					} 
+				?>
+				<?php
+                	if(Mage::getStoreConfig('productattachments/cmspagesattachments/showcontent')) {
+				?>
+                	<br /><?php echo $item['content']; ?><br />
+                <?php 
+					} 
+				?>
+             </li>
+            
+        <?php endforeach; ?>
+    </ul>
+</div>
+<?php endif; ?>
