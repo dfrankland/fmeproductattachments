@@ -1,0 +1,16 @@
+{
+"name": "kirchbergerknorr/fmeproductattachments",
+"description": "Product Attachments",
+"keywords": ["magento", "fme", "productattachments"],
+"homepage": "http://www.fmeextensions.com/",
+"type": "magento-module",
+"authors": [
+{
+"name": "FME Magento Extensions",
+"email": ""
+}
+],
+"require": {
+"magento-hackathon/magento-composer-installer": "*"
+}
+}
