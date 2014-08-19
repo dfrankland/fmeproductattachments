@@ -17,29 +17,32 @@ class FME_Productattachments_Model_Observer_Product extends Mage_Core_Model_Mysq
 	public function saveTabData(Varien_Event_Observer $observer)
 	{
 		if ($post = $this->_getRequest()->getPost()) {
-			
-			$productID = Mage::registry('current_product')->getId();
-			$condition = $this->_getWriteAdapter()->quoteInto('product_id = ?', $productID);
-			
-			//Get Related Products	
-			
-			if(isset($post['links'])) {
-				$links = $post['links'];
-			}
-			
-			if (isset($links['related_attachments'])) {
-				
-				$attachmentIds = Mage::helper('adminhtml/js')->decodeGridSerializedInput($links['related_attachments']);
-				$this->_getWriteAdapter()->delete($this->getTable('productattachments_products'), $condition);
-				
-				//Save Related Products
-				foreach ($attachmentIds as $_attachment) {
-					$attachmentArray = array();
-					$attachmentArray['productattachments_id'] = $_attachment;
-					$attachmentArray['product_id'] = $productID;
-					$this->_getWriteAdapter()->insert($this->getTable('productattachments_products'), $attachmentArray);
-				}
-			} 
+
+            /* kkstart, sonst fehler beim import */
+            if(Mage::registry('current_product')){
+                $productID = Mage::registry('current_product')->getId();
+                $condition = $this->_getWriteAdapter()->quoteInto('product_id = ?', $productID);
+
+                //Get Related Products
+
+                if(isset($post['links'])) {
+                    $links = $post['links'];
+                }
+
+                if (isset($links['related_attachments'])) {
+
+                    $attachmentIds = Mage::helper('adminhtml/js')->decodeGridSerializedInput($links['related_attachments']);
+                    $this->_getWriteAdapter()->delete($this->getTable('productattachments_products'), $condition);
+
+                    //Save Related Products
+                    foreach ($attachmentIds as $_attachment) {
+                        $attachmentArray = array();
+                        $attachmentArray['productattachments_id'] = $_attachment;
+                        $attachmentArray['product_id'] = $productID;
+                        $this->_getWriteAdapter()->insert($this->getTable('productattachments_products'), $attachmentArray);
+                    }
+                }
+            }
 		}
 	}
 	
