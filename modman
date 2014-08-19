@@ -1,6 +1,6 @@
 app/etc/modules/FME_Productattachments.xml app/etc/modules/FME_Productattachments.xml
 app/code/local/FME/Productattachments/* app/code/local/FME/Productattachments/
 app/design/adminhtml/default/default/layout/productattachments.xml app/design/adminhtml/default/default/layout/productattachments.xml
-app/design/frontend/default/default/layout/productattachments.xml app/design/frontend/base/default/layout/productattachments.xml
-app/design/frontend/default/default/template/productattachments/* app/design/frontend/base/default/template/productattachments/
+app/design/frontend/default/default/layout/productattachments.xml app/design/frontend/default/default/layout/productattachments.xml
+app/design/frontend/default/default/template/productattachments/* app/design/frontend/default/default/template/productattachments/
 js/productattachments/* js/productattachments/
