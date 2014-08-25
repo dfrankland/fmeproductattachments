@@ -71,25 +71,32 @@
 				</children>
 			</cms>
 		</menu>
-		<acl>
+				<acl>
 			<resources>
 				<all>
 					<title>Allow Everything</title>
 				</all>
 				<admin>
 					<children>
-						<productattachments>
-							<title>Attachments Module</title>
+						<cms>
 							<children>
-								<items translate="title">
-									<title>Manage Attachmentss</title>
-								</items>
-								<config translate="title">
-									<title>Configuration</title>
-								</config>
+								<productattachments>
+									<title>Attachments Module</title>
+									<children>
+										<items translate="title">
+											<title>Manage Attachments</title>
+										</items>
+										<productcats translate="title">
+											<title>Manage Categories</title>
+										</productcats>
+										<config translate="title">
+											<title>Configuration</title>
+										</config>
+									</children>
+									<sort_order>11</sort_order>
+								</productattachments>
 							</children>
-							<sort_order>11</sort_order>
-						</productattachments>
+						</cms>
 						<system>
 							<children>
 								<config>
