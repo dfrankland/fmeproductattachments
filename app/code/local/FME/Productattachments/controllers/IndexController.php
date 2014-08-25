@@ -12,7 +12,7 @@
  * @category   FME
  * @package    Productattachments
  * @author     Kamran Rafiq Malik <kamran.malik@unitedsol.net>
- * @copyright  Copyright 2010 © free-magentoextensions.com All right reserved
+ * @copyright  Copyright 2010 Â© free-magentoextensions.com All right reserved
  */
  
 class FME_Productattachments_IndexController extends Mage_Core_Controller_Front_Action
@@ -47,7 +47,13 @@ class FME_Productattachments_IndexController extends Mage_Core_Controller_Front_
 	$this->loadLayout();    
 	$this->renderLayout();
     }
-	
+
+    public function allAction()
+    {
+        $this->loadLayout();
+        $this->renderLayout();
+    }
+    
 	public function downloadAction(){	
 	
 		$id     = $this->getRequest()->getParam('id');
