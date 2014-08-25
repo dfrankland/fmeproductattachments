@@ -45,33 +45,31 @@
     </admin>
     <adminhtml>
 		<menu>
-			<FME_Extensions>
-			<title>FME Extensions</title>
-			<sort_order>71</sort_order>
-			<children>
-				<productattachments module="productattachments">
-					<title>Attachments</title>
-					<sort_order>71</sort_order>               
-					<children>
-						<items module="productattachments">
-							<title>Manage Attachments</title>
-							<sort_order>0</sort_order>
-							<action>productattachmentsadmin/adminhtml_productattachments</action>
-						</items>
-						<productcats module="productattachments">
-							<title>Manage Categories</title>
-							<sort_order>0</sort_order>
-							<action>productattachmentsadmin/adminhtml_productcats</action>
-						</productcats>
-						<config translate="title">
-							<title>Configuration</title>
-							<sort_order>2</sort_order>
-							<action>adminhtml/system_config/edit/section/productattachments</action>
-						</config>
-					</children>
-				</productattachments>
-			</children>
-			</FME_Extensions>
+				<cms>
+				<children>
+					<productattachments module="productattachments">
+						<title>Downloads</title>
+						<sort_order>71</sort_order>               
+						<children>
+							<items module="productattachments">
+								<title>Downloads verwalten</title>
+								<sort_order>0</sort_order>
+								<action>productattachmentsadmin/adminhtml_productattachments</action>
+							</items>
+							<productcats module="productattachments">
+								<title>Kategorien</title>
+								<sort_order>0</sort_order>
+								<action>productattachmentsadmin/adminhtml_productcats</action>
+							</productcats>
+							<config translate="title">
+								<title>Konfiguration</title>
+								<sort_order>2</sort_order>
+								<action>adminhtml/system_config/edit/section/productattachments</action>
+							</config>
+						</children>
+					</productattachments>
+				</children>
+			</cms>
 		</menu>
 		<acl>
 			<resources>
