@@ -12,10 +12,8 @@ class FME_Productattachments_Block_All extends Mage_Catalog_Block_Product_Abstra
         $cats = Mage::getModel('productattachments/productcats')
         		->getCollection()
                 ->addOrder('sort_order', SORT_ORDER_ASC)
-                ->addStoreFilter(Mage::app()->getStore()->getId())
         		->addFilter('category_status', 1)
-        		->addFilter('show_on_mediathek', 1)
-                ->addCustomOrder();
+        		->addFilter('show_on_mediathek', 1);
         return $cats;
 	}
 	
