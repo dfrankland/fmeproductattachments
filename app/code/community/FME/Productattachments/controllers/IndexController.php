@@ -36,9 +36,8 @@ class FME_Productattachments_IndexController extends Mage_Core_Controller_Front_
 		//Checking Configuration settings to see user authentication
 		if($login_before_download){
 			Mage::getSingleton('customer/session')->addError(Mage::helper('productattachments')->__('Please login to download the attachment.'));
-			if (!Mage::getSingleton('customer/session')->authenticate($this)) {
-				$this->setFlag('', 'no-dispatch', true);
-			}
+			Mage::app()->getFrontController()->getResponse()->setRedirect($_SERVER['HTTP_REFERER']);
+			$this->setFlag('', 'no-dispatch', true);
 		}
     }
 
@@ -72,9 +71,9 @@ class FME_Productattachments_IndexController extends Mage_Core_Controller_Front_
     		}
         }
 
-		if($isIncluded){
+		if(!$isIncluded){
 			Mage::getSingleton('customer/session')->addError(Mage::helper('productattachments')->__('This attachment is not for your User Group.'));
-			Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl('customer/account'));
+			Mage::app()->getFrontController()->getResponse()->setRedirect($_SERVER['HTTP_REFERER']);
 			return;
 		}
 
