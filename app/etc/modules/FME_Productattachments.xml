@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- 
+<!--
 /**
  * @category   FME
  * @package    FME_Productattachments
@@ -11,7 +11,7 @@
     <modules>
         <FME_Productattachments>
             <active>true</active>
-            <codePool>local</codePool>
+            <codePool>community</codePool>
         </FME_Productattachments>
     </modules>
-</config> 
+</config>
