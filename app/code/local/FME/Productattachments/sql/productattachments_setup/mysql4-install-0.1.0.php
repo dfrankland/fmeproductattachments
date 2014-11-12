@@ -50,14 +50,6 @@ PRIMARY KEY  (`productattachments_id`,`store_id`),
 KEY `FK_PRODUCTATTACHMENTS_STORE_STORE` (`store_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product Attachments Stores';
 
-DROP TABLE IF EXISTS {$this->getTable('productattachments_category_store')};
-CREATE TABLE {$this->getTable('productattachments_category_store')} (
- `category_id` int(10) unsigned NOT NULL,
- `store_id` smallint(5) unsigned NOT NULL,
- PRIMARY KEY  (`category_id`,`store_id`),
- KEY `productattachments_category_store_index_store_id` (`store_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 DROP TABLE IF EXISTS {$this->getTable('productattachments_products')};
 CREATE TABLE {$this->getTable('productattachments_products')} (
   `product_related_id` int(11) NOT NULL auto_increment,
