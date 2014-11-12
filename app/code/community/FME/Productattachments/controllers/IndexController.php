@@ -28,8 +28,8 @@ class FME_Productattachments_IndexController extends Mage_Core_Controller_Front_
 		$model  = Mage::getModel('productattachments/productattachments')->load($pid);
 		$customer_group_id = $model['customer_group_id'];
 
-		//over riding the configuration settings
-		if($customer_group_id==0){
+		//Check if user is logged in or override configuration
+		if($customer_group_id==0 || Mage::getSingleton('customer/session')->isLoggedIn()){
 			$login_before_download = 0;
 		}
 
@@ -62,16 +62,22 @@ class FME_Productattachments_IndexController extends Mage_Core_Controller_Front_
 		//Checking Customer Group to download the attachment
 		$customer_group_ids = explode(",",$model['customer_group_id']);
 		$groupid = Mage::getSingleton('customer/session')->getCustomerGroupId();
+		$isIncluded = false;
 
         foreach($customer_group_ids as $customer_group_id){
     		if($customer_group_id != "" || $customer_group_id != null || $customer_group_id != 0){
-    			if($customer_group_id != $groupid){
-    				Mage::getSingleton('customer/session')->addError(Mage::helper('productattachments')->__('This attachment is not for your User Group.'));
-    				Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl('customer/account'));
-    				return;
-    			}
+    			if($customer_group_id == $groupid){
+					$isIncluded = true;
+				}
     		}
         }
+
+		if($isIncluded){
+			Mage::getSingleton('customer/session')->addError(Mage::helper('productattachments')->__('This attachment is not for your User Group.'));
+			Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl('customer/account'));
+			return;
+		}
+
 		//Update Download Counter
 		Mage::getModel('productattachments/productattachments')->updateCounter($id);
 
