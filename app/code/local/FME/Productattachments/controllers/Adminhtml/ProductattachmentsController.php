@@ -22,27 +22,27 @@ class FME_Productattachments_Adminhtml_ProductattachmentsController extends Mage
 		$this->loadLayout()
 			->_setActiveMenu('productattachments/items')
 			->_addBreadcrumb(Mage::helper('adminhtml')->__('Attachment Manager'), Mage::helper('adminhtml')->__('Attachment Manager'));
-		
+
 		return $this;
-	}   
- 
+	}
+
 	public function indexAction() {
 		$this->_initAction()
 			->renderLayout();
 	}
 
 	protected function _initProductAttachments() {
-		
-		
+
+
 		$productattachments = Mage::getModel('productattachments/productattachments');
         $attachmentId  = (int) $this->getRequest()->getParam('id');
-       
+
 		if ($attachmentId) {
         	$productattachments->load($attachmentId);
-		} 
+		}
 		Mage::register('current_attachment_products', $productattachments);
 		return $productattachments;
-		
+
 	}
 
 	public function editAction() {
@@ -74,40 +74,40 @@ class FME_Productattachments_Adminhtml_ProductattachmentsController extends Mage
 			$this->_redirect('*/*/');
 		}
 	}
- 
+
 	public function newAction() {
 		$this->_forward('edit');
 	}
- 
+
 	public function saveAction() {
 		if ($data = $this->getRequest()->getPost()) {
-			
-			//Upload File 
-			$files = $this->uploadFiles( $_FILES ); 
+
+			//Upload File
+			$files = $this->uploadFiles( $_FILES );
             if( $files && is_array($files) ){
                 for( $f=0; $f<count($files); $f++ ){
                     if( $files[$f] ){
                         $fieldname = str_replace('_uploader','',$files[$f]['fieldname']);
                         if( array_key_exists($fieldname, $data) ){
                             $data['filename'] = $files[$f]['url'];
-							
+
 							//Get File Size, Icon, Type
 							$fileconfig = Mage::getModel('productattachments/image_fileicon');
 							$filePath = Mage::getBaseDir('media'). DS . $data['filename'];
 							$fileconfig->Fileicon($filePath);
-							
+
 							$data['file_icon'] = $fileconfig->displayIcon();
 							$data['file_type'] = $fileconfig->getType();
 							$data['file_size'] = $fileconfig->getSize();
-							
+
 							$fileURL = Mage::getBaseUrl('media').$data['filename'];
 							$data['download_link'] = "<a href='".$fileURL."' target='_blank'>Download</a>";
-							
-                        } 
-                    }  
-                }  
-            } 
-			
+
+                        }
+                    }
+                }
+            }
+
 			//Save CMS Pages
 			if(isset($data['cmspage_id']))
 			{
@@ -126,19 +126,36 @@ class FME_Productattachments_Adminhtml_ProductattachmentsController extends Mage
 					}
 				$data['cmspage_id'] = $cmsData;
 			 }
-			 	
-			$model = Mage::getModel('productattachments/productattachments');		
+
+			//Save Groups
+			if(isset($data['customer_group_id']))
+			{
+				$group_ids = $data['customer_group_id'];
+				$groupCount = count($group_ids);
+				$groupIndex = 1;
+				$groupData = '';
+				foreach($group_ids as $group_id){
+					$groupData .= $group_id;
+					if($groupIndex < $groupCount){
+						$groupData .= ',';
+					}
+					$groupIndex++;
+				}
+				$data['customer_group_id'] = $groupData;
+			}
+
+			$model = Mage::getModel('productattachments/productattachments');
 			$model->setData($data)
 				->setId($this->getRequest()->getParam('id'));
-			
+
 			try {
 				if ($model->getCreatedTime == NULL || $model->getUpdateTime() == NULL) {
 					$model->setCreatedTime(now())
 						->setUpdateTime(now());
 				} else {
 					$model->setUpdateTime(now());
-				}	
-				
+				}
+
 				$model->save();
 				Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('productattachments')->__('File was successfully saved'));
 				Mage::getSingleton('adminhtml/session')->setFormData(false);
@@ -159,7 +176,7 @@ class FME_Productattachments_Adminhtml_ProductattachmentsController extends Mage
         Mage::getSingleton('adminhtml/session')->addError(Mage::helper('productattachments')->__('Unable to find File to save'));
         $this->_redirect('*/*/');
 	}
-	
+
 	/**
      * Get related products grid and serializer block
      */
@@ -171,7 +188,7 @@ class FME_Productattachments_Adminhtml_ProductattachmentsController extends Mage
 		 				  ->setProductsRelatedAttachments($this->getRequest()->getPost('products_related', null));
         $this->renderLayout();
     }
-	
+
 	/**
      * Get related products grid
      */
@@ -184,28 +201,28 @@ class FME_Productattachments_Adminhtml_ProductattachmentsController extends Mage
 		foreach (Mage::registry('current_attachment_products')->getRelatedProducts($Id) as $products) {
            $productsarray = $products["product_id"];
         }
-		
+
 		if(!isset($_POST["products_related"])) {
 			$_POST["products_related"] = array();
 		}
-		
+
 		array_push($_POST["products_related"],$productsarray);
 		Mage::registry('current_attachment_products')->setProductsRelatedAttachments($productsarray);
-		
+
 		$this->loadLayout();
         $this->getLayout()->getBlock('productattachments.edit.tab.products')
             			  ->setProductsRelatedAttachments($this->getRequest()->getPost('products_related', null));
         $this->renderLayout();
     }
- 
+
 	public function deleteAction() {
 		if( $this->getRequest()->getParam('id') > 0 ) {
 			try {
 				$model = Mage::getModel('productattachments/productattachments');
-				 
+
 				$model->setId($this->getRequest()->getParam('id'))
 					->delete();
-					 
+
 				Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('File was successfully deleted'));
 				$this->_redirect('*/*/');
 			} catch (Exception $e) {
@@ -237,7 +254,7 @@ class FME_Productattachments_Adminhtml_ProductattachmentsController extends Mage
         }
         $this->_redirect('*/*/index');
     }
-	
+
     public function massStatusAction()
     {
         $productattachmentsIds = $this->getRequest()->getParam('productattachments');
@@ -261,7 +278,7 @@ class FME_Productattachments_Adminhtml_ProductattachmentsController extends Mage
         }
         $this->_redirect('*/*/index');
     }
-  
+
     public function exportCsvAction()
     {
         $fileName   = 'productattachments.csv';
@@ -295,7 +312,7 @@ class FME_Productattachments_Adminhtml_ProductattachmentsController extends Mage
         $response->sendResponse();
         die;
     }
-	
+
 	protected function uploadFiles( $files ){
         if( !empty($files) && is_array($files) ){
             $result = array();
@@ -305,7 +322,7 @@ class FME_Productattachments_Adminhtml_ProductattachmentsController extends Mage
             return $result;
         }
     }
-	
+
 	protected function uploadFile( $file_name ){
 
         if( !empty($_FILES[$file_name]['name']) ){
@@ -313,20 +330,20 @@ class FME_Productattachments_Adminhtml_ProductattachmentsController extends Mage
             $dynamicScmsURL = 'productattachments' . DS . 'files';
             $baseScmsMediaURL = Mage::getBaseUrl('media') . DS . 'productattachments' . DS . 'files';
             $baseScmsMediaPath = Mage::getBaseDir('media') . DS .  'productattachments' . DS . 'files';
-            
+
 			//Mage::helper('adminhtml')->getAllowedFileExtensions();
-			
+
             $uploader = new Varien_File_Uploader( $file_name );
             $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png','pdf','xls','xlsx','doc','docx','zip','ppt','pptx','flv','mp3','mp4','csv','html','bmp','txt','rtf','psd'));
             $uploader->setAllowRenameFiles(true);
             $uploader->setFilesDispersion(true);
             $result = $uploader->save( $baseScmsMediaPath );
-       
+
             $file = str_replace(DS, '/', $result['file']);
             if( substr($baseScmsMediaURL, strlen($baseScmsMediaURL)-1)=='/' && substr($file, 0, 1)=='/' )    $file = substr($file, 1);
-						
+
             $ScmsMediaUrl = $dynamicScmsURL.$file;
-            
+
             $result['fieldname'] = $file_name;
             $result['url'] = $ScmsMediaUrl;
             $result['file'] = $result['file'];
@@ -334,5 +351,5 @@ class FME_Productattachments_Adminhtml_ProductattachmentsController extends Mage
         } else {
             return false;
         }
-    } 
+    }
 }
