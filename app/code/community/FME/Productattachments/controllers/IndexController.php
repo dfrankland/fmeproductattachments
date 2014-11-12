@@ -64,15 +64,11 @@ class FME_Productattachments_IndexController extends Mage_Core_Controller_Front_
 		$groupid = Mage::getSingleton('customer/session')->getCustomerGroupId();
 
         foreach($customer_group_ids as $customer_group_id){
-    		if($customer_group_id !== "" || $customer_group_id !== null || $customer_group_id !== 0){
+    		if($customer_group_id != "" || $customer_group_id != null || $customer_group_id != 0){
     			if($customer_group_id != $groupid){
-    				$cgroup = Mage::getModel('customer/group')->load($customer_group_id);
-    				$groupName = $cgroup->getCode();
-    				Mage::getSingleton('customer/session')->addError(Mage::helper('productattachments')->__('This attachment is for only '.$groupName.' User Group to download'));
-    				Mage::app()->getFrontController()
-    			   ->getResponse()
-    			   ->setRedirect(Mage::getUrl('customer/account'));
-    			   return;
+    				Mage::getSingleton('customer/session')->addError(Mage::helper('productattachments')->__('This attachment is not for your User Group.'));
+    				Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl('customer/account'));
+    				return;
     			}
     		}
         }

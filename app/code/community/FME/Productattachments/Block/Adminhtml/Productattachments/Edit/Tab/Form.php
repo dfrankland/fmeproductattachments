@@ -97,11 +97,12 @@ class FME_Productattachments_Block_Adminhtml_Productattachments_Edit_Tab_Form ex
 		}
 
 		$fieldset->addField('customer_group_id', 'multiselect', array(
-		  'label'     => Mage::helper('productattachments')->__('Customer Group'),
-		  'name'      => 'customer_group_id',
-		  'values'    => $groups_array,
-		  'after_element_html' => '<p class="nm"><small>' . Mage::helper('productattachments')->__('(This option will override the configuration settings)') . '</small></p>'
-		));
+          'name'      => 'customer_group_id[]',
+          'label'     => Mage::helper('productattachments')->__('Customer Group'),
+          'title'     => Mage::helper('productattachments')->__('Customer Group'),
+          'values'    => $groups_array,
+          'after_element_html' => '<p class="nm"><small>' . Mage::helper('productattachments')->__('(This option will override the configuration settings)') . '</small></p>'
+        ));
 
 		$fieldset->addField('limit_downloads', 'text', array(
 		  'label'     => Mage::helper('productattachments')->__('Limit Downloads'),
