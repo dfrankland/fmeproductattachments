@@ -12,7 +12,7 @@
  * @category   FME
  * @package    Productattachments
  * @author     Kamran Rafiq Malik <kamran.malik@unitedsol.net>
- * @copyright  Copyright 2010 © free-magentoextensions.com All right reserved
+ * @copyright  Copyright 2010 ï¿½ free-magentoextensions.com All right reserved
  */
 
 class FME_Productattachments_Model_Productattachments extends Mage_Core_Model_Abstract
@@ -22,7 +22,7 @@ class FME_Productattachments_Model_Productattachments extends Mage_Core_Model_Ab
         parent::_construct();
         $this->_init('productattachments/productattachments');
     }
-	
+
 	/**
      * Retrieve related Products
      *
@@ -30,24 +30,24 @@ class FME_Productattachments_Model_Productattachments extends Mage_Core_Model_Ab
      */
     public function getRelatedProducts($attachmentId)
     {
-					
+
 			$productattachmentsTable = Mage::getSingleton('core/resource')->getTableName('productattachments_products');
-			
+
 			$collection = Mage::getModel('productattachments/productattachments')->getCollection()
 					  ->addAttachmentIdFilter($attachmentId)
 					  ->addStoreFilter(Mage::app()->getStore(true)->getId());
-					  
-					  
+
+
 			$collection->getSelect()
             ->joinLeft(array('related' => $productattachmentsTable),
                         'main_table.productattachments_id = related.productattachments_id'
                 )
 			->order('main_table.productattachments_id');
-			
+
 			return $collection->getData();
 
     }
-	
+
 	/**
      * Retrieve related Products
      *
@@ -55,7 +55,7 @@ class FME_Productattachments_Model_Productattachments extends Mage_Core_Model_Ab
      */
     public function getRelatedAttachments($productId)
     {
-					
+
 			$productattachmentsTable = Mage::getSingleton('core/resource')->getTableName('productattachments_products');
 			$collection = Mage::getModel('productattachments/productattachments')->getCollection();
 			$collection->getSelect()
@@ -66,7 +66,7 @@ class FME_Productattachments_Model_Productattachments extends Mage_Core_Model_Ab
 			return $collection->getData();
 
     }
-	
+
 	/**
      * Update Number of downloads counter
      *
@@ -75,14 +75,37 @@ class FME_Productattachments_Model_Productattachments extends Mage_Core_Model_Ab
 	public function updateCounter($id) {
 		return $this->_getResource()->updateDownloadsCounter($id);
 	}
-	
+
 	public function getCMSPage()
 	{
 		$CMSTable = Mage::getSingleton('core/resource')->getTableName('cms_page');
-		$sqry = "select title as label, page_id as value from ".$CMSTable." where is_active=1";	
+		$sqry = "select title as label, page_id as value from ".$CMSTable." where is_active=1";
 		$connection = Mage::getSingleton('core/resource')->getConnection('core_read');
 		$select = $connection->query($sqry);
 		return $rows = $select->fetchAll();
 	}
-	
+
+    /**
+    * Provide available options as a value/label array
+    *
+    * @return array
+    */
+    public function toOptionArray()
+    {
+        $downloads = Mage::getModel('productattachments/productattachments')->getCollection()->getData();
+        //build up an array of active downloads
+        $activeDownloads = array();
+        $activeDownloads[] = array(
+            'value' => '',
+            'label' => 'Select...'
+        );
+        foreach ($downloads as $download) {
+                $activeDownloads[] = array(
+                    'value' => $download['productattachments_id'],
+                    'label' => $download['title']
+                );
+        }
+        return $activeDownloads;
+    }
+
 }

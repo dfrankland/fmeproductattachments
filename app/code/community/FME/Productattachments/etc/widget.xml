@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<widgets>
+    <productattachments_widgetattachments type="productattachments/widgetattachments" translate="name description" module="productattachments">
+        <name>Product Attachments Widget</name>
+        <description>Add a file to download.</description>
+        <parameters>
+            <template translate="label">
+                <label>Frontend Template</label>
+                <visible>1</visible>
+                <required>1</required>
+                <type>select</type>
+                <values>
+                    <normal translate="label">
+                        <value>productattachments/widget_attachments.phtml</value>
+                        <label>Normal</label>
+                    </normal>
+                </values>
+            </template>
+            <enabled_download>
+                <label>Select Download</label>
+                <visible>1</visible>
+                <required>1</required>
+                <type>select</type>
+                <source_model>productattachments/productattachments</source_model>
+            </enabled_download>
+        </parameters>
+    </productattachments_widgetattachments>
+</widgets>
