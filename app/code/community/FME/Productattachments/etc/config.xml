@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- 
+<!--
 /**
  * @category   FME
  * @package    FME_Productattachments
@@ -40,7 +40,7 @@
 					<frontName>productattachmentsadmin</frontName>
 				</args>
 			</productattachmentsadmin>
-			
+
         </routers>
     </admin>
     <adminhtml>
@@ -49,20 +49,20 @@
 				<children>
 					<productattachments module="productattachments">
 						<title>Downloads</title>
-						<sort_order>71</sort_order>               
+						<sort_order>71</sort_order>
 						<children>
 							<items module="productattachments">
-								<title>Downloads verwalten</title>
+								<title>Manage Attachments</title>
 								<sort_order>0</sort_order>
 								<action>productattachmentsadmin/adminhtml_productattachments</action>
 							</items>
 							<productcats module="productattachments">
-								<title>Kategorien</title>
+								<title>Manage Catagories</title>
 								<sort_order>0</sort_order>
 								<action>productattachmentsadmin/adminhtml_productcats</action>
 							</productcats>
 							<config translate="title">
-								<title>Konfiguration</title>
+								<title>Configuration</title>
 								<sort_order>2</sort_order>
 								<action>adminhtml/system_config/edit/section/productattachments</action>
 							</config>
@@ -131,7 +131,7 @@
 				</observers>
 			</catalog_product_save_after>
 		</events>
-    </adminhtml>   
+    </adminhtml>
     <global>
         <models>
             <productattachments>
