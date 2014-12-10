@@ -12,14 +12,14 @@
  * @category   FME
  * @package    Productattachments
  * @author     Kamran Rafiq Malik <kamran.malik@unitedsol.net>
- * @copyright  Copyright 2010 © free-magentoextensions.com All right reserved
+ * @copyright  Copyright 2010 ï¿½ free-magentoextensions.com All right reserved
  */
 
 class FME_Productattachments_Helper_Data extends Mage_Core_Helper_Abstract
 {
 	const XML_PATH_LIST_PRODUCT_PAGE_ATTACHMENT_HEADING	= 'productattachments/productattachments/product_attachment_heading';
 	const XML_PATH_LIST_CMS_PAGE_ATTACHMENT_HEADING	= 'productattachments/cmspagesattachments/cms_page_attachment_heading';
-	
+
 	//const XML_PATH_LIST_ALLOWED_FILE_EXTENSIONS	= 'productattachments/productattachments/allowed_file_extensions';
 
 	/*
@@ -35,17 +35,17 @@ class FME_Productattachments_Helper_Data extends Mage_Core_Helper_Abstract
 	{
 		return Mage::getStoreConfig(self::XML_PATH_LIST_PRODUCT_PAGE_ATTACHMENT_HEADING);
 	}
-	
+
 	public function getCMSPageAttachmentHeading()
 	{
 		return Mage::getStoreConfig(self::XML_PATH_LIST_CMS_PAGE_ATTACHMENT_HEADING);
 	}
-	
+
 	/*public function getAllowedFileExtensions()
 	{
 		return Mage::getStoreConfig(self::XML_PATH_LIST_ALLOWED_FILE_EXTENSIONS);
 	}*/
-	
+
 	public static function nameToUrlKey($name)
     {
         $name = trim($name);
@@ -58,7 +58,7 @@ class FME_Productattachments_Helper_Data extends Mage_Core_Helper_Abstract
 
         return $name;
     }
-	
+
 	public function getCatData($pid=0){
 		$out = array();
          $collection = Mage::getModel('productattachments/productcats')->getCollection()
@@ -67,13 +67,13 @@ class FME_Productattachments_Helper_Data extends Mage_Core_Helper_Abstract
 		foreach ($collection as $item){
 			$out[] = $item->getData();
 		}
-		
+
 		return $out;
 	}
-	
+
 	public function getSelectcat(){
 		//Set 0 For Parent Cat!
-		$this->drawSelect(0);				
+		$this->drawSelect(0);
         foreach ($this->outtree['value'] as $k => $v){
         	$out[] = array('value'=>$v, 'label'=>$this->outtree['label'][$k]);
         }
@@ -84,13 +84,13 @@ class FME_Productattachments_Helper_Data extends Mage_Core_Helper_Abstract
 	public function drawSelect($pid=0){
 		$items = $this->getCatData($pid);
 		if(count($items) > 0 ){
-			$this->outtree['value'][] = $item[0];
+			$this->outtree['value'][] = '';
 			$this->outtree['label'][] = 'Select Category';
 			foreach ($items as $item){
 				$this->outtree['value'][] = $item['category_id'];
 				$this->outtree['label'][] = $item['category_name'];
 			}
-		} 
+		}
 		return;
 	}
 
